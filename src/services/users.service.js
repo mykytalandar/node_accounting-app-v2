@@ -1,7 +1,4 @@
-let users = [
-  // { id: 1, name: 'Kaban' },
-  // { id: 2, name: 'Kaban4ik' },
-];
+let users = [];
 
 const getAllUsers = () => {
   return users;

@@ -20,19 +20,21 @@ function createServer() {
   app.get('/expenses', express.json(), (req, res) => {
     const { userId, categories, from, to } = req.query;
 
+    let result = [...expenses];
+
     if (userId) {
-      expenses = expenses.filter((expense) => expense.userId === +userId);
+      result = expenses.filter((expense) => expense.userId === +userId);
     }
 
     if (categories) {
-      expenses = expenses.filter(
+      result = expenses.filter(
         (expense) =>
           expense.category.toLowerCase() === categories.toLowerCase(),
       );
     }
 
     if (from || to) {
-      const filtered = expenses.filter((expense) => {
+      result = expenses.filter((expense) => {
         const expenseDate = new Date(expense.spentAt);
 
         if (from && expenseDate < new Date(from)) {
@@ -45,11 +47,9 @@ function createServer() {
 
         return true;
       });
-
-      expenses = filtered;
     }
 
-    res.send(expenses);
+    res.send(result);
   });
 
   app.post('/expenses', express.json(), (req, res) => {
@@ -175,35 +175,3 @@ function createServer() {
 module.exports = {
   createServer,
 };
-
-/*
-
-{
-
-POST
-
-  "userId": 1,
-  "spentAt": "2026-05-01T00:05:55.169Z",
-  "title": "banana",
-  "amount": 10,
-  "category": "food",
-  "note": "ok"
-
-  "spentAt": "2026-04-30T23:01:49.212Z",
-  "title": "banana",
-  "amount": 6,
-  "category": "food",
-  "note": "ok"
-
-
-PATCH
-
-  "spentAt": "2026-05-01T00:01:55.177Z",
-  "title": "banana",
-  "amount": 10,
-  "category": "food",
-  "note": "ok"
-
-}
-
-*/
