@@ -23,18 +23,18 @@ function createServer() {
     let result = [...expenses];
 
     if (userId) {
-      result = expenses.filter((expense) => expense.userId === +userId);
+      result = result.filter((expense) => expense.userId === +userId);
     }
 
     if (categories) {
-      result = expenses.filter(
+      result = result.filter(
         (expense) =>
           expense.category.toLowerCase() === categories.toLowerCase(),
       );
     }
 
     if (from || to) {
-      result = expenses.filter((expense) => {
+      result = result.filter((expense) => {
         const expenseDate = new Date(expense.spentAt);
 
         if (from && expenseDate < new Date(from)) {

@@ -46,6 +46,13 @@ const getOne = (req, res) => {
 const remove = (req, res) => {
   const { id } = req.params;
 
+  if (isNaN(Number(id))) {
+    res.statusCode = 400;
+    res.send('Bad request');
+
+    return;
+  }
+
   if (!usersService.getUserById(id)) {
     res.statusCode = 404;
     res.send('Not found');
