@@ -111,6 +111,13 @@ function createServer() {
   app.delete('/expenses/:id', (req, res) => {
     const { id } = req.params;
 
+    if (isNaN(Number(id))) {
+      res.statusCode = 400;
+      res.send('Bad request');
+
+      return;
+    }
+
     const expense = expenses.find((e) => e.id === +id);
 
     if (!expense) {
